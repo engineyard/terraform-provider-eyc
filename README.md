@@ -14,7 +14,7 @@ At the root path, build and install the provider.
 make install
 ```
 
-
+(Temporary) Add EYC Token at in line 81 of /eyc/data_source_env_var.go
 
 Then, cd to the examples folder, run the following command to initialize the workspace and apply the sample configuration.
 
