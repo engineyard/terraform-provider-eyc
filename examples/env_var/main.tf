@@ -7,20 +7,9 @@ terraform {
   }
 }
 
-
-provider "eyc" {
-  # token = "xxx"
-}
-
 data "eyc_env_vars" "all" {}
 
-
-
-output "out" {
-  value = data.eyc_env_vars.all
+# Returns all env_varss
+output "all_env_vars" {
+  value = data.eyc_env_vars.all.environment_variables
 }
-
-
-# module "env_var" {
-#   source = "./env_var"
-# } 
