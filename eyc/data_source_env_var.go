@@ -85,19 +85,23 @@ func dataSourceEnvVarsReadBackup(ctx context.Context, d *schema.ResourceData, m 
 }
 
 func dataSourceEnvVarsRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
 	c := m.(*eyc.Client)
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	envVars, err := c.GetEnvVars()
+	body, err := c.GetEnvVars()
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	if err := d.Set("environment_variables", envVars); err != nil {
+	if err := d.Set("environment_variables", body["environment_variables"]); err != nil {
 		return diag.FromErr(err)
 	}
+
+	// always run
+	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
 
 	return diags
 }
