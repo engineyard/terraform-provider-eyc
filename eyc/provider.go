@@ -36,21 +36,14 @@ func Provider() *schema.Provider {
 	}
 }
 
-type Config struct {
-	Token       string
-	APIEndpoint string
-}
-
 func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	config := Config{
-		Token:       d.Get("token").(string),
-		APIEndpoint: d.Get("api_endpoint").(string),
-	}
+	token := d.Get("token").(string)
+	APIEndpoint := d.Get("api_endpoint").(string)
 
-	c, err := eyc.NewClient(nil, &config.Token)
+	c, err := eyc.NewClient(&APIEndpoint, &token)
 	if err != nil {
 		return nil, diag.FromErr(err)
 	}
