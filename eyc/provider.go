@@ -1,6 +1,10 @@
 package eyc
 
 import (
+	"context"
+
+	eyc "github.com/engineyard/terraform-eyc-sdk"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -28,20 +32,28 @@ func Provider() *schema.Provider {
 		DataSourcesMap: map[string]*schema.Resource{
 			"eyc_env_vars": dataSourceEnvVars(),
 		},
-		// ConfigureFunc: providerConfigure,
+		ConfigureContextFunc: providerConfigure,
 	}
 }
 
-// type Config struct {
-// 	Token       string
-// 	APIEndpoint string
-// }
+type Config struct {
+	Token       string
+	APIEndpoint string
+}
 
-// func providerConfigure(d *schema.ResourceData) (interface{}, error) {
-// 	config := Config{
-// 		Token:       d.Get("token").(string),
-// 		APIEndpoint: d.Get("api_endpoint").(string),
-// 	}
+func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
+	// Warning or errors can be collected in a slice type
+	var diags diag.Diagnostics
 
-// 	return config
-// }
+	config := Config{
+		Token:       d.Get("token").(string),
+		APIEndpoint: d.Get("api_endpoint").(string),
+	}
+
+	c, err := eyc.NewClient(nil, &config.Token)
+	if err != nil {
+		return nil, diag.FromErr(err)
+	}
+	return c, diags
+
+}
