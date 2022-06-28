@@ -27,6 +27,10 @@ github.com/engineyard/terraform-eyc-sdk v0.0.0-20220621040034-04ec339e2506 h1:hu
 github.com/engineyard/terraform-eyc-sdk v0.0.0-20220621040034-04ec339e2506/go.mod h1:ExcN7V4DOGgVdaNh0C2sw1eknpzTnfZ+SZX3x3DEfrI=
 github.com/engineyard/terraform-eyc-sdk v0.0.0-20220622152459-5678ec320e1b h1:5iYJWIntxBaqtv86cf4UaQEIRw1EwBZr4EOM3J8grh4=
 github.com/engineyard/terraform-eyc-sdk v0.0.0-20220622152459-5678ec320e1b/go.mod h1:ExcN7V4DOGgVdaNh0C2sw1eknpzTnfZ+SZX3x3DEfrI=
+github.com/engineyard/terraform-eyc-sdk v0.0.0-20220627100331-1766f37fa26c h1:EHpH9o1K1PtqWJFmHUwWh2n5g3aHA4caOyAxUUIo3Sk=
+github.com/engineyard/terraform-eyc-sdk v0.0.0-20220627100331-1766f37fa26c/go.mod h1:ExcN7V4DOGgVdaNh0C2sw1eknpzTnfZ+SZX3x3DEfrI=
+github.com/engineyard/terraform-eyc-sdk v0.0.0-20220628040855-d86b0a5a5442 h1:Pk1osfdbOpZKdw+MLP9vwIJHQ+jjqASMmsGEX+wrs70=
+github.com/engineyard/terraform-eyc-sdk v0.0.0-20220628040855-d86b0a5a5442/go.mod h1:ExcN7V4DOGgVdaNh0C2sw1eknpzTnfZ+SZX3x3DEfrI=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=

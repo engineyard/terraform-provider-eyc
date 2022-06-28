@@ -7,7 +7,7 @@ require github.com/hashicorp/terraform-plugin-sdk/v2 v2.14.0
 require (
 	github.com/agext/levenshtein v1.2.2 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
-	github.com/engineyard/terraform-eyc-sdk v0.0.0-20220622152459-5678ec320e1b // indirect
+	github.com/engineyard/terraform-eyc-sdk v0.0.0-20220628040855-d86b0a5a5442 // indirect
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.7 // indirect

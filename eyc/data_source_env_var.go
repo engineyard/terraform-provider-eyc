@@ -2,6 +2,7 @@ package eyc
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -14,6 +15,10 @@ func dataSourceEnvVars() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceEnvVarsRead,
 		Schema: map[string]*schema.Schema{
+			"env_id": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"environment_variables": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
@@ -66,32 +71,30 @@ func dataSourceEnvVars() *schema.Resource {
 	}
 }
 
-func dataSourceEnvVarsReadBackup(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*eyc.Client)
-
-	// Warning or errors can be collected in a slice type
-	var diags diag.Diagnostics
-
-	body, _ := c.GetEnvVars()
-
-	if err := d.Set("environment_variables", body["environment_variables"]); err != nil {
-		return diag.FromErr(err)
-	}
-
-	// always run
-	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
-
-	return diags
-}
-
 func dataSourceEnvVarsRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	c := m.(*eyc.Client)
 
+	var envID int
+	envID = d.Get("env_id").(int)
+
+	// envID, hasEnvID := d.Get("env_id").(int)
+	// appID := strconv.Itoa(d.Get("app_id").(int))
+
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	body, err := c.GetEnvVars()
+	var body map[string]interface{}
+	var err error
+	fmt.Println(strconv.Itoa(5))
+
+	if envID > 0 {
+		body, err = c.GetEnvVarsByEnv(envID)
+	} else {
+		body, err = c.GetEnvVars()
+	}
+	// fmt.Printf("appID: %v\n", appID)
+
 	if err != nil {
 		return diag.FromErr(err)
 	}
