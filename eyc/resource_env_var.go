@@ -2,6 +2,7 @@ package eyc
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 	"time"
 
@@ -75,10 +76,6 @@ func resourceEnvVar() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"sensitive": &schema.Schema{
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
 						"value": &schema.Schema{
 							Type:     schema.TypeString,
 							Computed: true,
@@ -109,13 +106,24 @@ func resourceEnvVarCreate(ctx context.Context, d *schema.ResourceData, m interfa
 		Environment_id: EnvID,
 	}
 
-	o, err := c.CreateEnvVar(param)
-
+	body, err := c.CreateEnvVar(param)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+	// Convert map to json string
+	jsonStr, _ := json.Marshal(body)
 
-	d.SetId(strconv.Itoa(o["environment_variable"].ID))
+	// Convert struct
+	var mapData map[string]map[string]interface{}
+	if err := json.Unmarshal(jsonStr, &mapData); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("environment_variable", mapData["environment_variable"]); err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(strconv.Itoa(body["environment_variable"].ID))
 
 	return diags
 }
@@ -141,7 +149,16 @@ func resourceEnvVarRead(ctx context.Context, d *schema.ResourceData, m interface
 		return diag.FromErr(err)
 	}
 
-	if err := d.Set("environment_variable", body["environment_variable"]); err != nil {
+	// Convert map to json string
+	jsonStr, err := json.Marshal(body)
+
+	// Convert struct
+	var mapData map[string]map[string]interface{}
+	if err := json.Unmarshal(jsonStr, &mapData); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("environment_variable", mapData["environment_variable"]); err != nil {
 		return diag.FromErr(err)
 	}
 
@@ -168,11 +185,23 @@ func resourceEnvVarUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 			Environment_id: EnvID,
 		}
 
-		_, err := c.UpdateEnvVar(param, evID)
+		body, err := c.UpdateEnvVar(param, evID)
 		if err != nil {
 			return diag.FromErr(err)
 		}
 
+		// Convert map to json string
+		jsonStr, err := json.Marshal(body)
+
+		// Convert struct
+		var mapData map[string]map[string]interface{}
+		if err := json.Unmarshal(jsonStr, &mapData); err != nil {
+			return diag.FromErr(err)
+		}
+
+		if err := d.Set("environment_variable", mapData["environment_variable"]); err != nil {
+			return diag.FromErr(err)
+		}
 		d.Set("last_updated", time.Now().Format(time.RFC850))
 	}
 
