@@ -23,7 +23,7 @@ func resourceEnvVar() *schema.Resource {
 				Computed: true,
 			},
 			"environment_variable": &schema.Schema{
-				Type:     schema.TypeMap,
+				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -80,7 +80,7 @@ func resourceEnvVarCreate(ctx context.Context, d *schema.ResourceData, m interfa
 	var diags diag.Diagnostics
 
 	key := d.Get("key").(string)
-	value := d.Get("key").(string)
+	value := d.Get("value").(string)
 	EnvID := d.Get("env_id").(int)
 	AppID := d.Get("app_id").(int)
 
@@ -99,7 +99,7 @@ func resourceEnvVarCreate(ctx context.Context, d *schema.ResourceData, m interfa
 		return diag.FromErr(err)
 	}
 
-	d.SetId(strconv.Itoa(o.ID))
+	d.SetId(strconv.Itoa(o["environment_variable"].ID))
 
 	return diags
 }
@@ -109,12 +109,12 @@ func resourceEnvVarRead(ctx context.Context, d *schema.ResourceData, m interface
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	evID := d.Id()
+	evID, _ := strconv.Atoi(d.Id())
 
 	// envID, hasEnvID := d.Get("env_id").(int)
 	// appID := strconv.Itoa(d.Get("app_id").(int))
 
-	var body map[string]interface{}
+	var body map[string]eyc.EnvVar
 	var err error
 
 	body, err = c.GetEnvVarByID(evID)
@@ -135,20 +135,24 @@ func resourceEnvVarRead(ctx context.Context, d *schema.ResourceData, m interface
 func resourceEnvVarUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*eyc.Client)
 
-	evID := d.Id()
+	evID, _ := strconv.Atoi(d.Id())
 
 	if d.HasChange("environment_variable") {
-		environment_variable := d.Get("environment_variable").(interface{})
+		key := d.Get("key").(string)
+		value := d.Get("value").(string)
+		EnvID := d.Get("env_id").(int)
+		AppID := d.Get("app_id").(int)
 
-		diags = append(diags, diag.Diagnostic{
-			Severity: diag.Error,
-			Summary:  "Inspecting returned env var",
-			Detail:   string(environment_variable),
-		})
+		param := eyc.EnvVarParam{
+			Environment_variable: eyc.EnvVarNameValue{
+				Name:  key,
+				Value: value,
+			},
+			Application_id: AppID,
+			Environment_id: EnvID,
+		}
 
-		return nil, diags
-
-		_, err := c.UpdateEnvVar(environment_variable, evID)
+		_, err := c.UpdateEnvVar(param, evID)
 		if err != nil {
 			return diag.FromErr(err)
 		}
@@ -165,9 +169,9 @@ func resourceEnvVarDelete(ctx context.Context, d *schema.ResourceData, m interfa
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	evID := d.Id()
+	evID, _ := strconv.Atoi(d.Id())
 
-	err := c.DeleteEnvVar(evID)
+	_, err := c.DeleteEnvVar(evID)
 	if err != nil {
 		return diag.FromErr(err)
 	}
