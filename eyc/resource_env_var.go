@@ -22,6 +22,22 @@ func resourceEnvVar() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"env_id": &schema.Schema{
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+			"app_id": &schema.Schema{
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+			"key": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"value": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"environment_variable": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
