@@ -176,7 +176,7 @@ func resourceEnvVarUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 
 	evID, _ := strconv.Atoi(d.Id())
 
-	if d.HasChange("environment_variable") {
+	if d.HasChange("value") {
 		key := d.Get("key").(string)
 		value := d.Get("value").(string)
 		EnvID := d.Get("env_id").(int)
@@ -212,6 +212,8 @@ func resourceEnvVarUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 			return diag.FromErr(err)
 		}
 		d.Set("last_updated", time.Now().Format(time.RFC850))
+		d.Set("value", mapData["environment_variable"]["value"])
+		d.Set("key", mapData["environment_variable"]["key"])
 	}
 
 	return resourceEnvVarRead(ctx, d, m)
