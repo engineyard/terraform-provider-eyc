@@ -141,10 +141,7 @@ func resourceEnvVarRead(ctx context.Context, d *schema.ResourceData, m interface
 	// envID, hasEnvID := d.Get("env_id").(int)
 	// appID := strconv.Itoa(d.Get("app_id").(int))
 
-	var body map[string]eyc.EnvVar
-	var err error
-
-	body, err = c.GetEnvVarByID(evID)
+	body, err := c.GetEnvVarByID(evID)
 
 	// fmt.Printf("appID: %v\n", appID)
 
@@ -167,6 +164,8 @@ func resourceEnvVarRead(ctx context.Context, d *schema.ResourceData, m interface
 	if err := d.Set("environment_variable", convertedMapData); err != nil {
 		return diag.FromErr(err)
 	}
+	d.Set("value", mapData["environment_variable"]["value"])
+	d.Set("key", mapData["environment_variable"]["name"])
 
 	return diags
 }
@@ -227,10 +226,7 @@ func resourceEnvVarDelete(ctx context.Context, d *schema.ResourceData, m interfa
 
 	evID, _ := strconv.Atoi(d.Id())
 
-	_, err := c.DeleteEnvVar(evID)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+	c.DeleteEnvVar(evID)
 
 	// d.SetId("") is automatically called assuming delete returns no errors, but
 	// it is added here for explicitness.
