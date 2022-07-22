@@ -28,7 +28,9 @@ func Provider() *schema.Provider {
 				Description: "The URL to use for the EYC API.",
 			},
 		},
-		ResourcesMap: map[string]*schema.Resource{},
+		ResourcesMap: map[string]*schema.Resource{
+			"eyc_env_var": resourceEnvVar(),
+		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"eyc_env_vars": dataSourceEnvVars(),
 		},
