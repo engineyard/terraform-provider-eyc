@@ -133,17 +133,18 @@ func resourceEnvVarCreate(ctx context.Context, d *schema.ResourceData, m interfa
 
 func resourceEnvVarRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*eyc.Client)
+	
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
 	evID, _ := strconv.Atoi(d.Id())
 
-	// envID, hasEnvID := d.Get("env_id").(int)
-	// appID := strconv.Itoa(d.Get("app_id").(int))
-
 	body, err := c.GetEnvVarByID(evID)
 
-	// fmt.Printf("appID: %v\n", appID)
+	if body == nil {
+		d.SetId("")
+		return diags
+	}
 
 	if err != nil {
 		return diag.FromErr(err)
