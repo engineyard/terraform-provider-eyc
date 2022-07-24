@@ -1,26 +1,7 @@
-terraform {
-  required_providers {
-    eyc = {
-      version = "0.2"
-      source  = "hashicorp.com/edu/eyc"
-    }
-  }
-}
 
 
-provider "eyc" {
-  # token = "xxx"
-}
+### Read all Env Var by Env ID
 
-data "eyc_env_vars" "all" {}
-
-
-
-output "out" {
-  value = data.eyc_env_vars.all
-}
-
-
-# module "env_var" {
-#   source = "./env_var"
-# } 
+# data "eyc_env_vars" "all" {
+#   env_id = var.env_id
+# }
