@@ -176,7 +176,7 @@ func resourceEnvVarUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 
 	evID, _ := strconv.Atoi(d.Id())
 
-	if d.HasChange("value") {
+	if d.HasChange("value") || d.HasChange("key") {
 		key := d.Get("key").(string)
 		value := d.Get("value").(string)
 		EnvID := d.Get("env_id").(int)
