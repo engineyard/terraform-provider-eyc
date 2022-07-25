@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     eyc = {
-      version = "0.2"
+      version = "0.1"
       source  = "engineyard/terraform/eyc"
     }
   }
