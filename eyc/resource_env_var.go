@@ -31,7 +31,7 @@ func resourceEnvVar() *schema.Resource {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"key": &schema.Schema{
+			"name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -92,14 +92,14 @@ func resourceEnvVarCreate(ctx context.Context, d *schema.ResourceData, m interfa
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	key := d.Get("key").(string)
+	name := d.Get("name").(string)
 	value := d.Get("value").(string)
 	EnvID := d.Get("env_id").(int)
 	AppID := d.Get("app_id").(int)
 
 	param := eyc.EnvVarParam{
 		Environment_variable: eyc.EnvVarNameValue{
-			Name:  key,
+			Name:  name,
 			Value: value,
 		},
 		Application_id: AppID,
@@ -166,7 +166,7 @@ func resourceEnvVarRead(ctx context.Context, d *schema.ResourceData, m interface
 		return diag.FromErr(err)
 	}
 	d.Set("value", mapData["environment_variable"]["value"])
-	d.Set("key", mapData["environment_variable"]["name"])
+	d.Set("name", mapData["environment_variable"]["name"])
 
 	return diags
 }
@@ -176,15 +176,15 @@ func resourceEnvVarUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 
 	evID, _ := strconv.Atoi(d.Id())
 
-	if d.HasChange("value") || d.HasChange("key") {
-		key := d.Get("key").(string)
+	if d.HasChange("value") || d.HasChange("name") {
+		name := d.Get("name").(string)
 		value := d.Get("value").(string)
 		EnvID := d.Get("env_id").(int)
 		AppID := d.Get("app_id").(int)
 
 		param := eyc.EnvVarParam{
 			Environment_variable: eyc.EnvVarNameValue{
-				Name:  key,
+				Name:  name,
 				Value: value,
 			},
 			Application_id: AppID,
@@ -213,7 +213,7 @@ func resourceEnvVarUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 		}
 		d.Set("last_updated", time.Now().Format(time.RFC850))
 		d.Set("value", mapData["environment_variable"]["value"])
-		d.Set("key", mapData["environment_variable"]["key"])
+		d.Set("name", mapData["environment_variable"]["name"])
 	}
 
 	return resourceEnvVarRead(ctx, d, m)
