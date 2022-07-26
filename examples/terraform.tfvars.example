@@ -1,5 +1,4 @@
 eyc_token = "xxxx"
-env_id    = 123
 
 env_var_of_env1 = [
   {
