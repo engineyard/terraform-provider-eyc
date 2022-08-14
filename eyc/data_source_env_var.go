@@ -78,9 +78,6 @@ func dataSourceEnvVarsRead(ctx context.Context, d *schema.ResourceData, m interf
 	var envID int
 	envID = d.Get("env_id").(int)
 
-	// envID, hasEnvID := d.Get("env_id").(int)
-	// appID := strconv.Itoa(d.Get("app_id").(int))
-
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
@@ -93,7 +90,6 @@ func dataSourceEnvVarsRead(ctx context.Context, d *schema.ResourceData, m interf
 	} else {
 		body, err = c.GetEnvVars()
 	}
-	// fmt.Printf("appID: %v\n", appID)
 
 	if err != nil {
 		return diag.FromErr(err)

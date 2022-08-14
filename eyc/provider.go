@@ -14,7 +14,7 @@ func Provider() *schema.Provider {
 		Schema: map[string]*schema.Schema{
 			"token": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 				DefaultFunc: schema.MultiEnvDefaultFunc([]string{
 					"EYC_TOKEN",
 					"EYC_ACCESS_TOKEN",
