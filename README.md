@@ -21,7 +21,7 @@ provider "eyc" {
 }
 ```
 
-note: `eyc_token` could be retrieved from https://cloud.engineyard.com/cli
+Note: `eyc_token` could be retrieved from https://cloud.engineyard.com/cli
 
 3) Change directory to `examples` folder, and change `terraform.tfvars.example` to `terraform.tfvars`
 4) (Under `examples` folder) Input corresponding variables under `terraform.tfvars` file
