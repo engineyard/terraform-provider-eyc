@@ -21,7 +21,7 @@ data "eyc_env_vars" "all" {}
 ### Fetch environment variables per an environment
 
 ```
-data "eyc_env_vars" "all" {
+data "eyc_env_vars" "env_1" {
     env_id = 123
 }
 ```
