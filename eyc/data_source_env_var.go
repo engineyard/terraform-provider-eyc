@@ -61,8 +61,9 @@ func dataSourceEnvVars() *schema.Resource {
 							Computed: true,
 						},
 						"value": &schema.Schema{
-							Type:     schema.TypeString,
-							Computed: true,
+							Type:      schema.TypeString,
+							Computed:  true,
+							Sensitive: true,
 						},
 					},
 				},
