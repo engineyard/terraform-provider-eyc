@@ -73,6 +73,15 @@ func resourceEnvVar() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"name": &schema.Schema{
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"value": &schema.Schema{
+							Type:      schema.TypeString,
+							Computed:  true,
+							Sensitive: true,
+						},
 					},
 				},
 			}},
