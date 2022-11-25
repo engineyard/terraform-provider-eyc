@@ -20,6 +20,7 @@ func Provider() *schema.Provider {
 					"EYC_ACCESS_TOKEN",
 				}, nil),
 				Description: "The token key for API operations.",
+				Sensitive:   true,
 			},
 			"api_endpoint": {
 				Type:        schema.TypeString,

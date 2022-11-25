@@ -36,8 +36,9 @@ func resourceEnvVar() *schema.Resource {
 				Required: true,
 			},
 			"value": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
+				Type:      schema.TypeString,
+				Required:  true,
+				Sensitive: true,
 			},
 			"environment_variable": &schema.Schema{
 				Type:     schema.TypeList,
@@ -77,8 +78,9 @@ func resourceEnvVar() *schema.Resource {
 							Computed: true,
 						},
 						"value": &schema.Schema{
-							Type:     schema.TypeString,
-							Computed: true,
+							Type:      schema.TypeString,
+							Computed:  true,
+							Sensitive: true,
 						},
 					},
 				},
@@ -122,9 +124,9 @@ func resourceEnvVarCreate(ctx context.Context, d *schema.ResourceData, m interfa
 	convertedMapData := make([]interface{}, 0)
 	convertedMapData = append(convertedMapData, mapData["environment_variable"])
 
-	if err := d.Set("environment_variable", convertedMapData); err != nil {
-		return diag.FromErr(err)
-	}
+	// if err := d.Set("environment_variable", convertedMapData); err != nil {
+	// 	return diag.FromErr(err)
+	// }
 
 	d.SetId(strconv.Itoa(body["environment_variable"].ID))
 
@@ -133,7 +135,7 @@ func resourceEnvVarCreate(ctx context.Context, d *schema.ResourceData, m interfa
 
 func resourceEnvVarRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*eyc.Client)
-	
+
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
@@ -162,9 +164,9 @@ func resourceEnvVarRead(ctx context.Context, d *schema.ResourceData, m interface
 	convertedMapData := make([]interface{}, 0)
 	convertedMapData = append(convertedMapData, mapData["environment_variable"])
 
-	if err := d.Set("environment_variable", convertedMapData); err != nil {
-		return diag.FromErr(err)
-	}
+	// if err := d.Set("environment_variable", convertedMapData); err != nil {
+	// 	return diag.FromErr(err)
+	// }
 	d.Set("value", mapData["environment_variable"]["value"])
 	d.Set("name", mapData["environment_variable"]["name"])
 
@@ -208,9 +210,9 @@ func resourceEnvVarUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 		convertedMapData := make([]interface{}, 0)
 		convertedMapData = append(convertedMapData, mapData["environment_variable"])
 
-		if err := d.Set("environment_variable", convertedMapData); err != nil {
-			return diag.FromErr(err)
-		}
+		// if err := d.Set("environment_variable", convertedMapData); err != nil {
+		// 	return diag.FromErr(err)
+		// }
 		d.Set("last_updated", time.Now().Format(time.RFC850))
 		d.Set("value", mapData["environment_variable"]["value"])
 		d.Set("name", mapData["environment_variable"]["name"])
