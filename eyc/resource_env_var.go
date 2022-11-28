@@ -40,51 +40,7 @@ func resourceEnvVar() *schema.Resource {
 				Required:  true,
 				Sensitive: true,
 			},
-			"environment_variable": &schema.Schema{
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"application": &schema.Schema{
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"application_id": &schema.Schema{
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"application_name": &schema.Schema{
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"environment": &schema.Schema{
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"environment_id": &schema.Schema{
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"environment_name": &schema.Schema{
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"name": &schema.Schema{
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"value": &schema.Schema{
-							Type:      schema.TypeString,
-							Computed:  true,
-							Sensitive: true,
-						},
-					},
-				},
-			}},
+		},
 	}
 }
 
